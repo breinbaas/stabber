@@ -1,0 +1,85 @@
+{
+    "gridsize_x": 0.5,
+    "gridsize_z": 0.5,
+    "phreatic_line": [
+        {
+            "x": -5.0,
+            "z": -0.5
+        },
+        {
+            "x": 10.0,
+            "z": -0.5
+        }
+    ],
+    "soils": [
+        {
+            "id": 1,
+            "code": "peat",
+            "yd": 10.0,
+            "ys": 10.2,
+            "c": 2.0,
+            "phi": 16.0
+        },
+        {
+            "id": 2,
+            "code": "clay",
+            "yd": 15.0,
+            "ys": 15.0,
+            "c": 4.0,
+            "phi": 22.0
+        }
+    ],
+    "layers": [
+        {
+            "soilcode": "peat",
+            "points": [
+                {
+                    "x": -5.0,
+                    "z": 0.5
+                },
+                {
+                    "x": 10.0,
+                    "z": 0.5
+                },
+                {
+                    "x": 10.0,
+                    "z": -2.0
+                },
+                {
+                    "x": -5.0,
+                    "z": -2.0
+                }
+            ]
+        },
+        {
+            "soilcode": "clay",
+            "points": [
+                {
+                    "x": -5.0,
+                    "z": -2.0
+                },
+                {
+                    "x": 10.0,
+                    "z": -2.0
+                },
+                {
+                    "x": 10.0,
+                    "z": -5.0
+                },
+                {
+                    "x": -5.0,
+                    "z": -5.0
+                }
+            ]
+        }
+    ],
+    "bbf_settings": {
+        "top": 5.0,
+        "bottom": 2.0,
+        "gridsize_x": 0.5,
+        "gridsize_z": 0.5,
+        "tangent_top": -1.5,
+        "tangent_bottom": -3.5,
+        "tangent_gridsize_z": 0.5
+    }
+}
