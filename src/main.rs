@@ -17,6 +17,8 @@ struct SoilLayer {
 struct BBFSettings {
     top: f64,
     bottom: f64,
+    left: f64,
+    right: f64,
     gridsize_x: f64,
     gridsize_z: f64,
     tangent_top: f64,
@@ -199,6 +201,7 @@ struct Stresses {
     m_stot: Vec<Vec<f64>>,
     m_u: Vec<Vec<f64>>,
     m_seff: Vec<Vec<f64>>,
+    m_tau: Vec<Vec<f64>>,
 }
 
 impl Stresses {
@@ -206,11 +209,13 @@ impl Stresses {
         let m_stot: Vec<Vec<f64>> = vec![vec![0.0; numz]; numx];
         let m_u: Vec<Vec<f64>> = vec![vec![0.0; numz]; numx];
         let m_seff: Vec<Vec<f64>> = vec![vec![0.0; numz]; numx];
+        let m_tau: Vec<Vec<f64>> = vec![vec![0.0; numz]; numx];
 
         Stresses {
             m_stot,
             m_u,
             m_seff,
+            m_tau,
         }
     }
 }
@@ -238,13 +243,9 @@ impl Analysis {
         }
     }
 
-    fn generate_stresses_matrix(&self) {}
-
-    fn execute_bishop(&mut self) {
+    fn generate_stresses_matrix(&mut self) {
         let numx = self.m_soil.len();
         let numz = self.m_soil[0].len();
-
-        let mut m_tau: Vec<Vec<f64>> = vec![vec![0.0; numz]; numx];
 
         for i in 0..numx {
             let mut s = 0.0;
@@ -267,7 +268,7 @@ impl Analysis {
                     }
 
                     let seff = (s - u).max(0.0);
-                    m_tau[i][j] = soil.c + seff * soil.phi.to_radians().tan();
+                    self.stresses.m_tau[i][j] = soil.c + seff * soil.phi.to_radians().tan();
                 }
 
                 self.stresses.m_u[i][j] = u;
@@ -275,7 +276,28 @@ impl Analysis {
                 self.stresses.m_seff[i][j] = (s - u).max(0.0);
             }
         }
-        print_matrix(&m_tau);
+    }
+
+    fn execute_bishop(&mut self) {
+        self.generate_stresses_matrix();
+
+        // loop over the bbf_settings
+        let mut cx = self.geometry.bbf_settings.left;
+        let mut cz = self.geometry.bbf_settings.bottom;
+
+        while cx <= self.geometry.bbf_settings.right {
+            while cz <= self.geometry.bbf_settings.top {
+                cx += self.geometry.bbf_settings.gridsize_x;
+                cz += self.geometry.bbf_settings.gridsize_z;
+            }
+        }
+        // See manual 7.2
+        // create a circle
+        // find the tau entries in the matrix to calculate tau along the slip plane
+        // get the weight (s;eff) at the slip plane
+        // calculate M = SUM[Stot x (xc - xi)]
+        // calculate Mwater;top SUM[U x (xc - xi)]
+        // calculate Mr
     }
 }
 

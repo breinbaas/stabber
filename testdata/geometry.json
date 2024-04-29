@@ -76,6 +76,8 @@
     "bbf_settings": {
         "top": 5.0,
         "bottom": 2.0,
+        "left": 4.0,
+        "right": 7.0,
         "gridsize_x": 0.5,
         "gridsize_z": 0.5,
         "tangent_top": -1.5,
