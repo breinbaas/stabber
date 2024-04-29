@@ -283,21 +283,29 @@ impl Analysis {
 
         // loop over the bbf_settings
         let mut cx = self.geometry.bbf_settings.left;
-        let mut cz = self.geometry.bbf_settings.bottom;
-
         while cx <= self.geometry.bbf_settings.right {
+            let mut cz = self.geometry.bbf_settings.bottom;
             while cz <= self.geometry.bbf_settings.top {
-                cx += self.geometry.bbf_settings.gridsize_x;
+                let mut tz = self.geometry.bbf_settings.tangent_bottom;
+                while tz <= self.geometry.bbf_settings.tangent_top {
+                    // 01 create a circle (cx, cz, r)
+                    let r = cz - tz;
+                    println!("cx: {}, cz: {}, tz: {}, r: {}", cx, cz, tz, r);
+
+                    // 02 find the tau entries in the matrix to calculate tau along the slip plane
+
+                    // See manual 7.2
+                    // get the weight (s;eff) at the slip plane
+                    // calculate M = SUM[Stot x (xc - xi)]
+                    // calculate Mwater;top SUM[U x (xc - xi)]
+                    // calculate Mr
+
+                    tz += self.geometry.bbf_settings.tangent_gridsize_z;
+                }
                 cz += self.geometry.bbf_settings.gridsize_z;
             }
+            cx += self.geometry.bbf_settings.gridsize_x;
         }
-        // See manual 7.2
-        // create a circle
-        // find the tau entries in the matrix to calculate tau along the slip plane
-        // get the weight (s;eff) at the slip plane
-        // calculate M = SUM[Stot x (xc - xi)]
-        // calculate Mwater;top SUM[U x (xc - xi)]
-        // calculate Mr
     }
 }
 

@@ -1,6 +1,6 @@
 {
-    "gridsize_x": 0.5,
-    "gridsize_z": 0.5,
+    "gridsize_x": 1.0,
+    "gridsize_z": 1.0,
     "phreatic_line": [
         {
             "x": -5.0,
